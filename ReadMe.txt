@@ -3,7 +3,7 @@ How to implement SDK :
 There are 2 methods to implement SDK :
 
 1. Using AAR file:
-	1. Copy Framework/contentsdk.aar and paste it in SdkSample/app/libs folder.
+	1. Copy contentsdk.aar and paste it in SdkSample/app/libs folder.
 	2. Go to app/build.gradle and add the following lines dependencies :
 		implementation 'com.squareup.retrofit2:retrofit:2.6.2'
 		implementation 'com.squareup.retrofit2:converter-gson:2.6.2' 
