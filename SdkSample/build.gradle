@@ -26,25 +26,6 @@ allprojects {
 
         //to get SDK as .aar
         flatDir { dirs 'libs' }
-
-        /*
-         * to get SDK from github package..add following lines at the end in your local.properties :
-         * gpr.usr=<github_username>
-         * gpr.key=<github_Personal_Access_Token>
-        */
-//        maven {
-//            url  "https://maven.pkg.github.com/wexervirtual/WexerContentSDK-Android"
-//            credentials {
-//                username = githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
-//                password = githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
-//            }
-//        }
-
-
-
-
-        //to get SDK from mavenLocal()
-//        mavenLocal()
     }
 }
 

@@ -13,19 +13,18 @@ There are 2 methods to implement SDK :
 		}
 
 2. Using gradle(recommended for future release, one time setup):
-	1. In root level build.gradle add the follwing lines:
-		maven {
-	            url  "https://maven.pkg.github.com/wexervirtual/WexerContentSDK-Android"
-        	    credentials {
-        	        username = githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
-        	        password = githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
-        	    }
-        	}
-	2. Add following lines at the end in your local.properties :
-        	gpr.usr=<github_username>
-        	gpr.key=<github_Personal_Access_Token>
+	1. Go to app/build.gradle and add the following lines dependencies :
+		implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+		implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+	2. Add it in your root build.gradle at the end of repositories:
+           allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	  }
 	3. Add following lines in module's build.gradle :
-		implementation ('com.wexer.virtual:contentsdk:1.0.0'){transitive = true}
+		implementation ('com.github.wexervirtual:WexerContentSDK-Android:1.1.0@aar'){transitive = true}
 
 
 

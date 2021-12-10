@@ -42,20 +42,12 @@ dependencies {
     // for local aar file :
     implementation(name: 'contentsdk_v1.0.2', ext: 'aar')
 
-//    Retrofit - only add if you are using local aar file
+//    Retrofit - add if you are using local and dependency aar file
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
 
 
-
-    // for github package:
-//    implementation ('com.wexer.virtual:contentsdk:1.0.1'){transitive = true}
-
-
-
-    // for mavenLocal() :
-//    implementation ('com.wexer.virtual:contentsdk:1.0.1@aar'){transitive = true}
-
-
+// for Jitpack() :
+//    implementation ('com.github.wexervirtual:WexerContentSDK-Android:1.1.0@aar'){transitive = true}
 
 }
