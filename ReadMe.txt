@@ -25,7 +25,7 @@ There are 2 methods to implement SDK :
 		}
 	  }
 	3. Add following lines in module's build.gradle :
-		implementation ('com.github.wexervirtual:WexerContentSDK-Android:1.1.0@aar'){transitive = true}
+		implementation ('com.github.wexervirtual:WexerContentSDK-Android:1.2.0@aar'){transitive = true}
 
 
 
