@@ -7,6 +7,7 @@ There are 2 methods to implement SDK :
 	2. Go to app/build.gradle and add the following lines dependencies :
 		implementation 'com.squareup.retrofit2:retrofit:2.6.2'
 		implementation 'com.squareup.retrofit2:converter-gson:2.6.2' 
+		implementation(name: 'contentsdk', ext: 'aar')
 	3. Go to root build.gradle and enable flat dir by pasting the following in allprojects -> repositories ->
 		flatDir { 
 			dirs 'libs' 

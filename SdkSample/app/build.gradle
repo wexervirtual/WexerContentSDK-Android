@@ -40,7 +40,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // for local aar file :
-    implementation(name: 'contentsdk_v1.0.2', ext: 'aar')
+    implementation(name: 'contentsdk_v1.0.3', ext: 'aar')
 
 //    Retrofit - add if you are using local and dependency aar file
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
