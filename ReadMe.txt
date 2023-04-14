@@ -47,3 +47,5 @@ val config = WCSDKConfig(
         ) 
 		
 Note. It require to put proper formatted values like (url with http/https) in constructor, otherwise app will crash.
+
+Integration Guide : WexerContentSDK-Android/Wexer-Android-Kotlin-Content SDK Integration Guide.pdf
