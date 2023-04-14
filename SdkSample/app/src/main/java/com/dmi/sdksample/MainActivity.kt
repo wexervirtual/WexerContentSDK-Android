@@ -18,8 +18,9 @@ import com.dmi.mykotlinlib.start.WCSDKConfig
 import com.dmi.mykotlinlib.start.exposedcallbacks.*
 import com.dmi.mykotlinlib.vplayer.WCSDKView
 import com.google.android.material.textfield.TextInputEditText
-import java.lang.Exception
+import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -43,7 +44,21 @@ class MainActivity : AppCompatActivity() {
 
     var pageSizeEt: TextInputEditText? = null
     var pageNumberEt: TextInputEditText? = null
+
+    var lv_signIn  : LinearLayout? = null
+    var lv_getclasses : LinearLayout? = null
+    var lv_serchondemand : LinearLayout? = null
+    var btn_getconsent : Button? = null
+    var lv_getclassdetail : LinearLayout? = null
+    var lv_playvideo : LinearLayout? = null
+    var btn_acceptconsent : Button? = null
     lateinit var wexerSdk: ISdkInstance
+    var lv_playoverlay : LinearLayout? = null
+   // var lv_voverlay : LinearLayout? = null
+    var lv_getcollections : LinearLayout? = null
+    var btn_metadata : Button? = null
+    var tv_listoffunctions : TextView? = null
+
     companion object{
         var videoViewBuilder: ISdkInstance.VideoViewBuilder? = null
     }
@@ -101,6 +116,18 @@ class MainActivity : AppCompatActivity() {
         buttonExit = findViewById(R.id.buttonExit)
         buttonFullScreen = findViewById(R.id.buttonFullScreen)
 
+        lv_signIn = findViewById(R.id.lv_signIn)
+        lv_getclasses =findViewById(R.id.lv_getclasses)
+        lv_getclassdetail = findViewById(R.id.lv_getclassdetail)
+        lv_playvideo = findViewById(R.id.lv_playvideo)
+        btn_acceptconsent = findViewById(R.id.btn_acceptconsent)
+        lv_playoverlay = findViewById(R.id.lv_playoverlay)
+       // lv_voverlay = findViewById(R.id.lv_voverlay)
+        btn_getconsent = findViewById(R.id.btn_getconsent)
+        lv_serchondemand = findViewById(R.id.lv_searchOndemand)
+        lv_getcollections = findViewById(R.id.lv_getcollections)
+        btn_metadata  = findViewById(R.id.btn_getmetadata)
+        tv_listoffunctions = findViewById(R.id.tv_listoffunctions)
 
         buttonPlay?.setOnClickListener{
             videoViewBuilder?.playVideo()
@@ -145,7 +172,21 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
     }
 
+    fun hideView(){
+
+        lv_playvideo?.visibility = View.GONE
+        btn_acceptconsent?.visibility =View.GONE
+        lv_getclasses?.visibility = View.GONE
+        lv_getclassdetail?.visibility = View.GONE
+        lv_serchondemand?.visibility = View.GONE
+        btn_getconsent?.visibility = View.GONE
+        lv_getcollections?.visibility = View.GONE
+        btn_metadata?.visibility = View.GONE
+        tv_listoffunctions?.visibility =View.GONE
+    }
     fun setConfig(view: View) {
+        lv_signIn?.visibility = View.GONE
+        hideView()
         videoViewBuilder?.stopVideo()
         setConfig()
     }
@@ -157,8 +198,7 @@ class MainActivity : AppCompatActivity() {
             "",
             "",
             "",
-            ""
-        )
+            "")
 
         // now init sdk with config object
         wexerSdk = WCSDK.initialize(config)
@@ -169,14 +209,23 @@ class MainActivity : AppCompatActivity() {
         // set api header language
         //wexerSdk.setLanguageForRestApi("en-UK")
 
-        if (wexerSdk != null)
+        if (wexerSdk != null) {
             showToastMsg("SDK init successfully")
-        else
+            tv_listoffunctions?.visibility = View.VISIBLE
+            lv_signIn?.visibility =View.VISIBLE
+        }
+        else {
+            lv_signIn?.visibility =View.GONE
             showToastMsg("SDK initialisation  failed")
+        }
     }
 
     fun signIn(view: View) {
         videoViewBuilder?.stopVideo()
+        hideView()
+        tv_listoffunctions?.visibility =View.VISIBLE
+
+
 
         val userName: String = mUsernameEditText?.getText().toString().trim()
         if (TextUtils.isEmpty(userName)) {
@@ -184,73 +233,47 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        /*val password: String = mPassowrdEditText?.getText().toString().trim()
-        if (TextUtils.isEmpty(password)) {
-            showToastMsg("Please enter password")
-            return
-        }*/
-
         showProgress()
-
         wexerSdk.startSession(userName, object : StartSessionListener {
             override fun onError(error: SdkError) {
                 hideProgress()
+                lv_getclasses?.visibility =View.GONE
                 showToastMsg(error.message)
             }
 
             override fun onSuccess(msg: String, mWCSDKUser: WCSDKUser?) {
                 hideProgress()
+                lv_getclasses?.visibility =View.VISIBLE
                 showToastMsg(msg)
             }
         })
     }
 
-    fun ondemandPerform(view: View) {
-        videoViewBuilder?.stopVideo()
-        val classTag: String = mClasstag?.getText().toString().trim()
-        if (TextUtils.isEmpty(classTag)) {
-            showToastMsg("Please enter class id")
-            return
-        }
-
-
-        // 1. subscribe
-        // 3. now play
-
-        showProgress()
-
-        val userSubscription = WCSDKUserSubscriptionRequest("2019-01-02T06:20:49.000", "monthly")
-
-        wexerSdk.activateSubscription(userSubscription, object : SubscriptionActivatedListener {
-            override fun onError(error: SdkError) {
-                hideProgress()
-                showToastMsg(error.message)
-
-            }
-
-            override fun onSuccess(msg: String) {
-                playPerform()
-            }
-        })
-
-    }
 
     private var onDemandClass: WCSDKOnDemandClass? = null
-    private fun playPerform() {
+    lateinit var classTag :String
+     fun playPerform(view: View) {
 
-        val classTag = mClasstag?.getText().toString().trim()
+      //  val classTagTxt = mClasstag?.getText().toString().trim()
+        // if (classTagTxt.isEmpty()==null){
+          //   return}
 
         wexerSdk.performOnDemandContent(classTag, object : OnDemandPerformListener {
 
             override fun onError(error: SdkError) {
                 showToastMsg(error.message)
+                lv_playoverlay?.visibility = View.GONE
                 hideProgress()
             }
 
-            override fun onSuccess(msg: String, mWCSDKOnDemandClasses: List<WCSDKOnDemandClass>?) {
+            override fun onSuccess(msg: String, mWCSDKOnDemandClasses:WCSDKGetStreamingLinkResponse?) {
                 //showToastMsg("${response}")
-                onDemandClass = mWCSDKOnDemandClasses?.get(0)
+
+                onDemandClass?.streamingLink= mWCSDKOnDemandClasses?.results?.streamingUrl
                 hideProgress()
+                lv_playoverlay?.visibility = View.VISIBLE
+              //  lv_voverlay?.visibility = View.VISIBLE
+                startVideoView()
             }
 
         })
@@ -263,29 +286,41 @@ class MainActivity : AppCompatActivity() {
     fun getClasses(view: View) {
         showProgress()
 
-        val pageSizeText: Int = pageSizeEt?.getText().toString().trim().toInt()
-        val pageNumberText: Int = pageNumberEt?.getText().toString().trim().toInt()
+        val take: Int = pageSizeEt?.getText().toString().trim().toInt()
+        val skip: Int = pageNumberEt?.getText().toString().trim().toInt()
 
-        val filterBy: String = filterBy?.getText().toString().trim()
-        val orderBy: String = orderByEt?.getText().toString().trim()
+        val sort: String = filterBy?.getText().toString().trim()
+        val dir: String = orderByEt?.getText().toString().trim()
 
         // tag 50122
         wexerSdk.getOnDemandClasses(
-            pageSizeText,
-            pageNumberText,
-            filterBy,
-            orderBy,
+            take,
+            skip,
+            sort,
+            dir,
             object : ClassDataFetchListener {
                 override fun onError(error: SdkError) {
                     hideProgress()
                     showToastMsg(error.message)
+                    lv_getclassdetail?.visibility =View.GONE
+
                 }
 
                 override fun onSuccess(
                     msg: String,
-                    mOnDemandClassResponse: OnDemandClassResponse?
+                    mOnDemandClassResponse: WCSDKOnDemandSearchResult?
                 ) {
+                    classTag = mOnDemandClassResponse?.items?.get(0)?.classTag.toString()
+                    val className = mOnDemandClassResponse?.items?.get(0)?.virtualClass?.className
+                    mClasstag?.setText("$className")
+                    classtagDetEt?.setText("$className")
+                    onDemandClass = mOnDemandClassResponse?.items?.get(0)?.virtualClass
                     hideProgress()
+                    lv_getclassdetail?.visibility =View.VISIBLE
+                    lv_serchondemand?.visibility = View.VISIBLE
+                    btn_getconsent?.visibility = View.VISIBLE
+                    lv_getcollections?.visibility = View.VISIBLE
+                    btn_metadata?.visibility = View.VISIBLE
                     showToastMsg(msg)
                 }
 
@@ -293,8 +328,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun searchOndemand(view: View) {
-        val url =
-            "https://cflondemandcontentprod.blob.core.windows.net/asset-cacc6cb6-52a3-47d4-bec8-7bb6d846b420/WE_01_Yoga_Spirits_OV_wexer_prof_1280x720_3400.mp4?sv=2015-07-08&sr=c&si=93c9f30f-866d-4815-8e32-713fef4ee0b3&sig=jA4Nicrc%2FnvME%2FvjMzcyK%2FQarNOUN%2BEeZ8SoUX7KXto%3D&se=2028-10-19T05%3A45%3A10Z"
+        val url = "https://cdn.jwplayer.com/manifests/19MkdMGa.m3u8"
+           // "https://cflondemandcontentprod.blob.core.windows.net/asset-cacc6cb6-52a3-47d4-bec8-7bb6d846b420/WE_01_Yoga_Spirits_OV_wexer_prof_1280x720_3400.mp4?sv=2015-07-08&sr=c&si=93c9f30f-866d-4815-8e32-713fef4ee0b3&sig=jA4Nicrc%2FnvME%2FvjMzcyK%2FQarNOUN%2BEeZ8SoUX7KXto%3D&se=2028-10-19T05%3A45%3A10Z"
 
         val urlStream =
             "https://0fcb8e4c4b5b4e069c231a71b0ff5f12.azureedge.net/b3db8bcd-224d-4a36-963e-70405b236724/WE_01_Yoga_Spirits_OV_wexer_prof.ism/manifest(format=m3u8-aapl)"
@@ -307,19 +342,23 @@ class MainActivity : AppCompatActivity() {
 
         val searchEt: String = searchEt?.getText().toString().trim()
 
-        val mOnDemandSearch = WCSDKOnDemandFilterRequest()
+        val mOnDemandSearch = WCSDKOnDemandClassRequest()
         searchEt.let {
             mOnDemandSearch.query = it
         }
-        mOnDemandSearch.take = 200
+        mOnDemandSearch.take = 20
         mOnDemandSearch.skip = 0
+        mOnDemandSearch.dir="desc"
+        mOnDemandSearch.sort="scheduledate"
+        mOnDemandSearch.categoryId="1001"
+        mOnDemandSearch.query = "core"
         //mOnDemandSearch.type = "Cycling,Weight Loss"
         //mOnDemandSearch.provider = "L1FT"
         //mOnDemandSearch.classLanguage = "L1FT"
         //mOnDemandSearch.duration = "1,109"
         //mOnDemandSearch.intensity = "1,10"
         //mOnDemandSearch.keywords = "hi"
-        mOnDemandSearch.level = ExerciseLevel.Advanced // beginner intermediate advanced
+        //mOnDemandSearch.level = ExerciseLevel.Advanced // beginner intermediate advanced
 
         wexerSdk.getOnDemandClassesForCriteria(
             mOnDemandSearch,
@@ -333,6 +372,7 @@ class MainActivity : AppCompatActivity() {
                     msg: String,
                     mWCSDKOnDemandSearchResult: WCSDKOnDemandSearchResult?
                 ) {
+
                     hideProgress()
                     showToastMsg(msg)
                 }
@@ -340,41 +380,7 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    fun cancelSubscription(view: View) {
-        //showToastMsg("Coming soon...")
-        //convertDate()
-        showProgress()
-        wexerSdk.cancelSubscription(object : SubscriptionCanceledListener {
-            override fun onError(error: SdkError) {
-                hideProgress()
-                showToastMsg(error.message)
-            }
 
-            override fun onSuccess(msg: String) {
-                hideProgress()
-                showToastMsg(msg)
-            }
-        })
-    }
-
-    fun activateSubscription(view: View) {
-        //showToastMsg("Coming soon...")
-        showProgress()
-
-        val userSubscription = WCSDKUserSubscriptionRequest("2019-01-02T06:20:49.000", "monthly")
-
-        wexerSdk.activateSubscription(userSubscription, object : SubscriptionActivatedListener {
-            override fun onError(error: SdkError) {
-                hideProgress()
-                showToastMsg(error.message)
-            }
-
-            override fun onSuccess(msg: String) {
-                hideProgress()
-                showToastMsg(msg)
-            }
-        })
-    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun convertDate() {
@@ -396,10 +402,10 @@ class MainActivity : AppCompatActivity() {
 
     fun getTenantCollection(view: View) {
 
-        val collectionId: String = collectionIdEt?.getText().toString().trim()
+        val collectionId: String = "eb112d95-fe7c-4949-9f63-ec5d37422ca5"//collectionIdEt?.getText().toString().trim()
 
         showProgress()
-        wexerSdk.getOnDemandCollections(collectionId, 16, object : OnDemandCollectionListener {
+        wexerSdk.getOnDemandCollections(collectionId, object : OnDemandCollectionListener {
             override fun onError(error: SdkError) {
                 hideProgress()
                 showToastMsg(error.message)
@@ -435,7 +441,7 @@ class MainActivity : AppCompatActivity() {
 
     fun ondemandClassdetails(view: View) {
 
-        val classTag: String = classtagDetEt?.getText().toString().trim()
+       // val classTag: String = classtagDetEt?.getText().toString().trim()
         if (TextUtils.isEmpty(classTag)) {
             showToastMsg("Please enter class id")
             return
@@ -446,15 +452,63 @@ class MainActivity : AppCompatActivity() {
             override fun onError(error: SdkError) {
                 showToastMsg(error.message)
                 hideProgress()
+                lv_playoverlay?.visibility = View.GONE
+                lv_playvideo?.visibility =View.GONE
+
             }
 
-            override fun onSuccess(msg: String, mOnDemandClassResponse: OnDemandClassResponse?) {
-
+            override fun onSuccess(msg: String, mOnDemandClassResponse: WCSDKOnDemandClass?) {
                 showToastMsg(msg)
                 hideProgress()
+                lv_playoverlay?.visibility = View.GONE
+                lv_playvideo?.visibility =View.VISIBLE
+
             }
 
         })
+    }
+    lateinit var mConsentTag : String
+     fun getConsent(view: View)
+    {
+        showProgress()
+        wexerSdk.getConsent(object : GetConsentListener{
+            override fun onError(error: SdkError) {
+                hideProgress()
+                showToastMsg(error.message)
+                btn_acceptconsent?.visibility = View.GONE
+            }
+
+            override fun onSuccess(msg: String, mConsent: List<Consent>?) {
+
+                showToastMsg(msg)
+                mConsentTag = mConsent?.get(0)?.consentTag.toString()
+                hideProgress()
+                btn_acceptconsent?.visibility = View.VISIBLE
+
+            }
+
+        })
+    }
+    fun acceptConsent(view: View){
+        showProgress()
+      //  val mConsentTag ="aa8ad028-ef2d-408a-bcd6-ccd53437ca4c"
+        wexerSdk.acceptConsent(
+            mConsentTag,
+            object : AcceptConsentListener {
+                override fun onError(error: SdkError) {
+                    hideProgress()
+                    showToastMsg(error.message)
+
+                }
+
+                override fun onSuccess(
+                    msg: String,
+                    mWCSDKAcceptConsentResponse: List<WCSDKAcceptConsentResponse>
+                ) {
+                    hideProgress()
+                    showToastMsg(msg)                }
+
+            })
     }
     private fun getFormattedTimeInString(time: Long?) = Utils.getStringForTime(
         formatBuilder,
@@ -473,7 +527,6 @@ class MainActivity : AppCompatActivity() {
 
         videoViewBuilder?.setOnDemandClass(onDemandClass!!, mVideoPlayerStateListener)
         videoViewBuilder?.useCustomOverlayView(true)
-
         videoViewBuilder?.setCustomOverlayView(R.layout.client_playback_overlay_view, mSmallScreenOverlayViewProvider, mFullScreenOverlayViewProvider)
 
         videoViewBuilder?.setDefaultPlayButton(drawableResId = R.drawable.ic_default_play, colorTint = R.color.red)
@@ -483,7 +536,6 @@ class MainActivity : AppCompatActivity() {
         videoViewBuilder?.setDefaultStopButton(/*drawableResId = R.drawable.ic_default_stop,*/ colorTint = R.color.light_green)
         videoViewBuilder?.setDefaultSeekBarProgressColorTint(colorTint = R.color.red)
         videoViewBuilder?.setDefaultSeekBarThumbColorTint(colorTint = R.color.red)
-
         videoViewBuilder?.startVideoIn(wexerVideoView) // to start small screen video..
 
     }
