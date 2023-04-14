@@ -86,22 +86,26 @@
                 android:onClick="setConfig"
                 android:text="Initialise SDK"/>
 
+
             <TextView
+                android:id="@+id/tv_listoffunctions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:gravity="center"
                 android:text="List of exposed functions"
                 android:textColor="@color/light_green"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone"/>
 
             <LinearLayout
+                android:id="@+id/lv_signIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@color/feature_bg"
                 android:orientation="vertical"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:padding="5dp">
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -186,7 +190,10 @@
 
             <!--            </LinearLayout>-->
 
+
+
             <LinearLayout
+                android:id="@+id/lv_getclasses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -198,37 +205,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Class Tag Id">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/classtagDetEt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="50122" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:onClick="ondemandClassdetails"
-                    android:text="Get Class details" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@color/feature_bg"
-                android:orientation="vertical"
-                android:padding="5dp"
-                android:visibility="gone">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Page Size">
+                    android:hint="Take">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/pageSizeEt"
@@ -242,34 +219,34 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Page Number">
+                    android:hint="Skip">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/pageNumberEt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:text="1" />
+                        android:text="0" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Filter By">
+                    android:hint="Sort">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/filterByEt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="alpha" />
+                        android:text="scheduledate" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Order By">
+                    android:hint="Dir">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/orderByEt"
@@ -294,18 +271,20 @@
                 android:background="@color/feature_bg"
                 android:orientation="vertical"
                 android:padding="5dp"
+                android:id="@+id/lv_getclassdetail"
                 android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Collection Tag">
+                    android:hint="Class Name"
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/collectionIdEt"
+                        android:id="@+id/classtagDetEt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="f132dc8e-5fd9-4b2a-abec-e916989bdc36" />
+                        android:editable="false" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -313,36 +292,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:onClick="getTenantCollection"
-                    android:text="Get Tenant collections" />
+                    android:onClick="ondemandClassdetails"
+                    android:text="Get Class details" />
             </LinearLayout>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:onClick="getMetadata"
-                android:text="Get On demand meta data"
-                android:visibility="gone" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@color/feature_bg"
                 android:orientation="vertical"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:id="@+id/lv_playvideo"
+                android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Class Tag Id">
+                    android:hint="Class Name">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/classtagEt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="50122" />
+                        android:editable="false"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -350,21 +322,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:onClick="ondemandPerform"
-                    android:text="Perform data" />
-
+                    android:onClick="playPerform"
+                    android:text="Play Video" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lv_playoverlay"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="Click on any one button to play the video"/>
-
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:orientation="horizontal"
-                    android:weightSum="3">
+                    android:weightSum="3"
+                    android:id="@+id/lv_hoverlay"
+                    android:visibility="visible">
 
                     <Button
                         android:layout_width="0dp"
@@ -393,7 +371,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:orientation="horizontal"
-                    android:weightSum="3">
+                    android:weightSum="3"
+                     android:id="@+id/lv_voverlay"
+                    android:visibility="visible">
 
                     <Button
                         android:layout_width="0dp"
@@ -417,6 +397,7 @@
                         android:onClick="onFSViewDefaultOverlayCustomTheme"
                         android:text="Only Fullscreen View - Default Overlay - Custom Theme" />
                 </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -427,8 +408,8 @@
                 </LinearLayout>
             </LinearLayout>
 
-
             <LinearLayout
+                android:id="@+id/lv_getcollections"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -440,7 +421,51 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Search text">
+                    android:hint="Collection Tag"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/collectionIdEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:onClick="getTenantCollection"
+                    android:text="Get Tenant collections" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_getmetadata"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:onClick="getMetadata"
+                android:text="Get On demand meta data"
+                android:visibility="gone" />
+
+
+            <LinearLayout
+                android:id="@+id/lv_searchOndemand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/feature_bg"
+                android:orientation="vertical"
+                android:padding="5dp"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Search text"
+                    android:visibility="gone">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/searchEt"
@@ -458,13 +483,28 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/btn_getconsent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:onClick="getConsent"
+                android:text="Get Consent"
+                android:visibility="gone" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:id="@+id/btn_acceptconsent"
+                android:visibility="gone"
+                android:onClick="acceptConsent"
+                android:text="Accept Consent" />
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:onClick="cancelSubscription"
                 android:text="Cancel Subscription"
                 android:visibility="gone" />
-
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -473,8 +513,15 @@
                 android:text="Get SignUp consents"
                 android:visibility="gone" />
 
-        </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:onClick="getOndemadtracking"
+                android:text="Ondemand Tracking"
+                android:visibility="gone" />
 
+        </LinearLayout>
         <ProgressBar
             android:id="@+id/pb"
             style="@android:style/Widget.ProgressBar"
