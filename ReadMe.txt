@@ -25,7 +25,7 @@ There are 2 methods to implement SDK :
 		}
 	  }
 	3. Add following lines in module's build.gradle :
-		implementation ('com.github.wexervirtual:WexerContentSDK-Android:1.2.1@aar'){transitive = true}
+		implementation ('com.github.wexervirtual:WexerContentSDK-Android:1.3.0@aar'){transitive = true}
 
 
 
@@ -47,3 +47,5 @@ val config = WCSDKConfig(
         ) 
 		
 Note. It require to put proper formatted values like (url with http/https) in constructor, otherwise app will crash.
+
+https://github.com/wexervirtual/WexerContentSDK-Android/blob/master/Wexer-Android-Kotlin-Content%20SDK%20Integration%20Guide.pdf
