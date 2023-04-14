@@ -46,4 +46,6 @@ val config = WCSDKConfig(
             "<TENANT_ID>"
         ) 
 		
-Note. It require to put proper formatted values like (url with http/https) in constructor, otherwise app will crash.
+Note. It require to put proper formatted values like (url with http/https) in constructor, otherwise app will crash
+
+Integration Guide : https://github.com/wexervirtual/WexerContentSDK-Android/blob/master/Wexer-Android-Kotlin-Content%20SDK%20Integration%20Guide.pdf
